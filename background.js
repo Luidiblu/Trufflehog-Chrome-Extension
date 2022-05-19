@@ -7,6 +7,15 @@
 var currentTab;
 var version = "1.0";
 
+function notification(title, message) {
+    chrome.notifications.create({
+        type: "basic",
+        iconUrl: chrome.runtime.getURL("icon128.png"),
+        title: title,
+        message: message
+    });
+}
+
 chrome.tabs.query( //get current Tab
     {
         currentWindow: true,
@@ -150,9 +159,9 @@ var updateTabAndAlert = function(finding){
         console.log(result.alerts)
         if (result.alerts == undefined || result.alerts){
             if (fromEncoded){
-                alert(key + ": " + match + " found in " + src + " decoded from " + fromEncoded.substring(0,9) + "...");
+                notification('Trufflehog', key + ": " + match + " found in " + src + " decoded from " + fromEncoded.substring(0,9) + "...");
             }else{
-                alert(key + ": " + match + " found in " + src);
+                notification('Trufflehog', key + ": " + match + " found in " + src);
             }
         }
     })
